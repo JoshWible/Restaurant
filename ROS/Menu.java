@@ -1,37 +1,60 @@
 import java.util.ArrayList;
 
-public class Menu
-{
+public class Menu{
     private ArrayList<Item> menuItems;
+    private ArrayList<Item> results; //search results from searchMenu method
     
-    public Menu()
-    {
+    public Menu(){
         menuItems = new ArrayList<Item>();
-        populate();
+        results = new ArrayList<Item>();
     }
-
-    public ArrayList<Item> getMenu()
-    {return menuItems;}
     
-    private void populate()
-    {
-        String[] itemNames = {"Meat","Fish","Chips","Dip","Salad","Soup",
-            "Pasta","Water","Beverage","Soda","Appetizer","Bread"};
-            
-            for (String s : itemNames){
-                menuItems.add(new Item(s));
+    public Menu(ArrayList<Item> existingMenu){
+        for(Item item : existingMenu){
+            menuItems.add(item);
+        }
+        results = new ArrayList<Item>();
+    }
+    
+    public void addItem(Item item){
+        menuItems.add(item);
+    }
+    
+    public void removeItem(String name){
+        for(Item item : menuItems){
+            if(name.equals(item.getName())){
+                System.out.println(item.getName() + " has been removed from the menu.");
+                menuItems.remove(item);
+                break;
             }
+        }
+        System.out.println("No item found");
     }
     
-    public Item get(int index)
-    {
-        return menuItems.get(index);
+    public Item getItem(String name){
+        for(Item item : menuItems){
+            if(name.equals(item.getName())){
+                return item;
+            }
+        }
+        return null;
     }
     
-    public int getMenuSize()
-    {
+    public ArrayList<Item> searchMenu(String str){
+        results.clear();
+        for(Item item : menuItems){
+            if(item.getInfo().contains(str)){
+                results.add(item);
+            }
+        }
+        return results;
+    }
+    
+    public ArrayList<Item> getMenu(){
+        return menuItems;
+    }
+    
+    public int getMenuSize(){
         return menuItems.size();
     }
-        
-
 }
